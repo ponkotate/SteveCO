@@ -32,14 +32,14 @@ class PeeFluidBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
         super.onBlockAdded(state, world, pos, oldState, notify)
         // source ブロック (level=0) のみ消滅タイマーを設定
-        if (state.get(LEVEL) == 0) {
+        if (state.isOf(this) && state.get(LEVEL) == 0) {
             world.scheduleBlockTick(pos, this, DESPAWN_TICKS)
         }
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         // source ブロックを除去 → 流れブロックは自然消失
-        if (state.get(LEVEL) == 0) {
+        if (state.isOf(this) && state.get(LEVEL) == 0) {
             world.setBlockState(pos, Blocks.AIR.defaultState, NOTIFY_ALL)
         }
     }
