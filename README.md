@@ -68,21 +68,22 @@ OP 権限（レベル 2）が必要なデバッグ・テスト用コマンド。
 
 | | Version |
 |---|---------|
-| Minecraft | 1.21.4 |
-| Fabric Loader | 0.16+ |
+| Minecraft | 26.1 |
+| Java | 25+ |
+| Fabric Loader | 0.18+ |
 | [Fabric API](https://modrinth.com/mod/fabric-api) | Required / 必須 |
 | [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) | Required / 必須 |
 
 ## Installation / 導入方法
 
-1. Install [Fabric Loader](https://fabricmc.net/) for Minecraft 1.21.4
+1. Install [Fabric Loader](https://fabricmc.net/) for Minecraft 26.1
 2. Download and place [Fabric API](https://modrinth.com/mod/fabric-api) and [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) in your `mods/` folder
 3. Download SteveCO and place it in your `mods/` folder
 4. Launch the game!
 
 ---
 
-1. Minecraft 1.21.4 用の [Fabric Loader](https://fabricmc.net/) を導入
+1. Minecraft 26.1 用の [Fabric Loader](https://fabricmc.net/) を導入
 2. [Fabric API](https://modrinth.com/mod/fabric-api) と [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) を `mods/` フォルダに配置
 3. SteveCO を `mods/` フォルダに配置
 4. ゲームを起動!
