@@ -97,5 +97,6 @@ Minecraft Fabric Mod (Kotlin)。一定時間経過でプレイヤーに尿意が
 
 ## データの永続化
 
-- 尿意値はプレイヤーの Persistent Data (NBT) に保存
-- キー: `steveco:urgency` (Int)
+- 尿意値は Fabric Attachment API (`AttachmentRegistry`) で管理
+- Identifier: `steveco:urgency` (Int)
+- 内部的に NBT へ永続化される
