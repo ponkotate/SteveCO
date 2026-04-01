@@ -25,8 +25,8 @@ object UrgencyHudOverlay : HudRenderCallback {
 
     override fun onHudRender(drawContext: DrawContext, tickCounter: RenderTickCounter) {
         val client = net.minecraft.client.MinecraftClient.getInstance()
-        if (client.options.hudHidden) return
-        if (client.player?.isCreative == true) return
+        val player = client.player ?: return
+        if (client.options.hudHidden || player.isCreative || player.isSpectator) return
 
         val urgency = ClientUrgencyData.urgency
         val stage = when {
