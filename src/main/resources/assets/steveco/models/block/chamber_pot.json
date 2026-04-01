@@ -1,0 +1,65 @@
+{
+  "textures": {
+    "metal": "steveco:block/chamber_pot",
+    "particle": "steveco:block/chamber_pot"
+  },
+  "elements": [
+    {
+      "__comment": "底面",
+      "from": [4, 0, 4],
+      "to": [12, 1, 12],
+      "faces": {
+        "down":  {"uv": [4, 4, 12, 12], "texture": "#metal", "cullface": "down"},
+        "up":    {"uv": [4, 4, 12, 12], "texture": "#metal"},
+        "north": {"uv": [4, 15, 12, 16], "texture": "#metal"},
+        "south": {"uv": [4, 15, 12, 16], "texture": "#metal"},
+        "west":  {"uv": [4, 15, 12, 16], "texture": "#metal"},
+        "east":  {"uv": [4, 15, 12, 16], "texture": "#metal"}
+      }
+    },
+    {
+      "__comment": "北壁",
+      "from": [4, 1, 4],
+      "to": [12, 7, 5],
+      "faces": {
+        "north": {"uv": [4, 9, 12, 15], "texture": "#metal"},
+        "south": {"uv": [4, 9, 12, 15], "texture": "#metal"},
+        "up":    {"uv": [4, 4, 12, 5], "texture": "#metal"},
+        "west":  {"uv": [4, 9, 5, 15], "texture": "#metal"},
+        "east":  {"uv": [11, 9, 12, 15], "texture": "#metal"}
+      }
+    },
+    {
+      "__comment": "南壁",
+      "from": [4, 1, 11],
+      "to": [12, 7, 12],
+      "faces": {
+        "north": {"uv": [4, 9, 12, 15], "texture": "#metal"},
+        "south": {"uv": [4, 9, 12, 15], "texture": "#metal"},
+        "up":    {"uv": [4, 11, 12, 12], "texture": "#metal"},
+        "west":  {"uv": [11, 9, 12, 15], "texture": "#metal"},
+        "east":  {"uv": [4, 9, 5, 15], "texture": "#metal"}
+      }
+    },
+    {
+      "__comment": "西壁",
+      "from": [4, 1, 5],
+      "to": [5, 7, 11],
+      "faces": {
+        "west":  {"uv": [5, 9, 11, 15], "texture": "#metal"},
+        "east":  {"uv": [5, 9, 11, 15], "texture": "#metal"},
+        "up":    {"uv": [4, 5, 5, 11], "texture": "#metal"}
+      }
+    },
+    {
+      "__comment": "東壁",
+      "from": [11, 1, 5],
+      "to": [12, 7, 11],
+      "faces": {
+        "west":  {"uv": [5, 9, 11, 15], "texture": "#metal"},
+        "east":  {"uv": [5, 9, 11, 15], "texture": "#metal"},
+        "up":    {"uv": [11, 5, 12, 11], "texture": "#metal"}
+      }
+    }
+  ]
+}

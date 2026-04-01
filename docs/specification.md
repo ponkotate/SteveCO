@@ -6,10 +6,10 @@ Minecraft Fabric Mod (Kotlin)。一定時間経過でプレイヤーに尿意が
 
 ## 対象環境
 
-- Minecraft: 1.21.5
-- Fabric Loader: 0.16+
+- Minecraft: 1.21.4
+- Fabric Loader: 0.18+
 - Fabric Language Kotlin
-- Kotlin: 2.1+
+- Kotlin: 2.3+
 
 ## ゲームメカニクス
 
@@ -62,7 +62,7 @@ Minecraft Fabric Mod (Kotlin)。一定時間経過でプレイヤーに尿意が
 - 見た目: 小さな壺型ブロック (カスタムモデル)
 - 右クリックで使用 → 尿意値を 0 にリセット
 - 使用時に効果音を再生
-- クラフトレシピ: 鉄インゴット 3個 (バケツと同じ配置の上下反転)
+- クラフトレシピ: 鉄インゴット 5個
 
 ```
 [   ] [   ] [   ]
@@ -97,5 +97,6 @@ Minecraft Fabric Mod (Kotlin)。一定時間経過でプレイヤーに尿意が
 
 ## データの永続化
 
-- 尿意値はプレイヤーの Persistent Data (NBT) に保存
-- キー: `steveco:urgency` (Int)
+- 尿意値は Fabric Attachment API (`AttachmentRegistry`) で管理
+- Identifier: `steveco:urgency` (Int)
+- 内部的に NBT へ永続化される

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "steveco",
+  "version": "${version}",
+  "name": "Steve Can Oshikko",
+  "description": "Adds a bladder urgency mechanic to Minecraft",
+  "authors": ["Ponkotate"],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.steveco.SteveCOMod"
+      }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.steveco.client.SteveCOClient"
+      }
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*",
+    "fabric-language-kotlin": ">=1.13.0+kotlin.2.3.0"
+  }
+}
