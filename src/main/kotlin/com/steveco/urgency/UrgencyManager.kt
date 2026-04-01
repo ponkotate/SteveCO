@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
@@ -97,6 +98,13 @@ object UrgencyManager {
                 true,
                 true
             )
+        )
+
+        // パーティクル表示
+        world.spawnParticles(
+            ParticleTypes.SPLASH,
+            player.x, player.y + 0.5, player.z,
+            20, 0.3, 0.2, 0.3, 0.05
         )
 
         // サウンド再生

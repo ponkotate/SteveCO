@@ -112,7 +112,7 @@ src/main/
     data/steveco/
       recipe/
         chamber_pot.json
-      loot_table/block/
+      loot_table/blocks/
         pee_block.json
         chamber_pot.json
 ```
