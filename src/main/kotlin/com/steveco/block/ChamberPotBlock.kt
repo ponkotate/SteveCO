@@ -48,8 +48,8 @@ class ChamberPotBlock(settings: Settings) : HorizontalFacingBlock(settings) {
                 return when (dir) {
                     Direction.SOUTH -> box // デフォルト
                     Direction.NORTH -> Box(16.0 - box.x2, box.y1, 16.0 - box.z2, 16.0 - box.x1, box.y2, 16.0 - box.z1)
-                    Direction.WEST -> Box(box.z1, box.y1, 16.0 - box.x2, box.z2, box.y2, 16.0 - box.x1)
-                    Direction.EAST -> Box(16.0 - box.z2, box.y1, box.x1, 16.0 - box.z1, box.y2, box.x2)
+                    Direction.WEST -> Box(16.0 - box.z2, box.y1, box.x1, 16.0 - box.z1, box.y2, box.x2)
+                    Direction.EAST -> Box(box.z1, box.y1, 16.0 - box.x2, box.z2, box.y2, 16.0 - box.x1)
                     else -> box
                 }
             }
