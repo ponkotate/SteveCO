@@ -1,25 +1,31 @@
 package com.steveco.block
 
-import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
+import net.minecraft.block.FluidBlock
+import net.minecraft.fluid.FlowableFluid
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 
-class PeeBlock(settings: Settings) : Block(settings) {
+class PeeFluidBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings) {
     companion object {
         private const val DESPAWN_TICKS = 1200 // 60秒
     }
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
         super.onBlockAdded(state, world, pos, oldState, notify)
-        world.scheduleBlockTick(pos, this, DESPAWN_TICKS)
+        // source ブロック (level=0) のみ消滅タイマーを設定
+        if (state.get(LEVEL) == 0) {
+            world.scheduleBlockTick(pos, this, DESPAWN_TICKS)
+        }
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        if (state.isOf(this)) {
-            world.removeBlock(pos, false)
+        // source ブロックを除去 → 流れブロックは自然消失
+        if (state.get(LEVEL) == 0) {
+            world.setBlockState(pos, Blocks.AIR.defaultState, NOTIFY_ALL)
         }
     }
 }

@@ -2,9 +2,10 @@ package com.steveco.registry
 
 import com.steveco.SteveCOMod
 import com.steveco.block.ChamberPotBlock
-import com.steveco.block.PeeBlock
+import com.steveco.block.PeeFluidBlock
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
+import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -16,12 +17,16 @@ object ModBlocks {
     val PEE_BLOCK: Block = register(
         "pee_block",
         { settings ->
-            PeeBlock(
+            PeeFluidBlock(
+                ModFluids.STILL_PEE,
                 settings
                     .noCollision()
-                    .nonOpaque()
-                    .strength(0.0f)
-                    .sounds(BlockSoundGroup.SLIME)
+                    .replaceable()
+                    .strength(100.0f)
+                    .pistonBehavior(PistonBehavior.DESTROY)
+                    .dropsNothing()
+                    .liquid()
+                    .sounds(BlockSoundGroup.INTENTIONALLY_EMPTY)
             )
         }
     )
