@@ -37,6 +37,7 @@ object ModBlocks {
             ChamberPotBlock(
                 settings
                     .strength(3.5f)
+                    .requiresCorrectToolForDrops()
                     .noOcclusion()
                     .sound(SoundType.ANVIL)
             )
