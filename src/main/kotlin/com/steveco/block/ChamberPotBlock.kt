@@ -3,50 +3,49 @@ package com.steveco.block
 import com.steveco.registry.ModSounds
 import com.steveco.urgency.UrgencyManager
 import com.mojang.serialization.MapCodec
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.block.ShapeContext
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
-import net.minecraft.state.StateManager
-import net.minecraft.util.ActionResult
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.phys.shapes.VoxelShape
 
-class ChamberPotBlock(settings: Settings) : HorizontalFacingBlock(settings) {
-    override fun getCodec(): MapCodec<out HorizontalFacingBlock> = CODEC
+class ChamberPotBlock(settings: Properties) : HorizontalDirectionalBlock(settings) {
+    override fun codec(): MapCodec<out HorizontalDirectionalBlock> = CODEC
 
     companion object {
-        val CODEC: MapCodec<ChamberPotBlock> = createCodec(::ChamberPotBlock)
+        val CODEC: MapCodec<ChamberPotBlock> = simpleCodec(::ChamberPotBlock)
 
         // デフォルト: アヒルが南を向く (くちばしが +Z 方向)
         private fun buildShape(facing: Direction): VoxelShape {
-            // 南向き基準の各パーツ座標を回転
             data class Box(
                 val x1: Double, val y1: Double, val z1: Double,
                 val x2: Double, val y2: Double, val z2: Double
             )
 
             val parts = listOf(
-                Box(2.0, 0.0, 2.0, 14.0, 1.0, 14.0),   // ベース
-                Box(3.0, 1.0, 3.0, 13.0, 7.0, 13.0),    // ボウル
-                Box(5.0, 7.0, 11.0, 11.0, 10.0, 14.0),  // 首
-                Box(5.0, 10.0, 10.0, 11.0, 15.0, 15.0), // 頭
-                Box(6.0, 10.0, 15.0, 10.0, 13.0, 16.0), // くちばし
-                Box(6.0, 6.0, 1.0, 10.0, 9.0, 3.0)      // しっぽ
+                Box(2.0, 0.0, 2.0, 14.0, 1.0, 14.0),
+                Box(3.0, 1.0, 3.0, 13.0, 7.0, 13.0),
+                Box(5.0, 7.0, 11.0, 11.0, 10.0, 14.0),
+                Box(5.0, 10.0, 10.0, 11.0, 15.0, 15.0),
+                Box(6.0, 10.0, 15.0, 10.0, 13.0, 16.0),
+                Box(6.0, 6.0, 1.0, 10.0, 9.0, 3.0)
             )
 
             fun rotateBox(box: Box, dir: Direction): Box {
                 return when (dir) {
-                    Direction.SOUTH -> box // デフォルト
+                    Direction.SOUTH -> box
                     Direction.NORTH -> Box(16.0 - box.x2, box.y1, 16.0 - box.z2, 16.0 - box.x1, box.y2, 16.0 - box.z1)
                     Direction.WEST -> Box(16.0 - box.z2, box.y1, box.x1, 16.0 - box.z1, box.y2, box.x2)
                     Direction.EAST -> Box(box.z1, box.y1, 16.0 - box.x2, box.z2, box.y2, 16.0 - box.x1)
@@ -56,11 +55,11 @@ class ChamberPotBlock(settings: Settings) : HorizontalFacingBlock(settings) {
 
             return parts
                 .map { rotateBox(it, facing) }
-                .map { createCuboidShape(
+                .map { box(
                     minOf(it.x1, it.x2), minOf(it.y1, it.y2), minOf(it.z1, it.z2),
                     maxOf(it.x1, it.x2), maxOf(it.y1, it.y2), maxOf(it.z1, it.z2)
                 ) }
-                .reduce { acc, shape -> VoxelShapes.union(acc, shape) }
+                .reduce { acc, shape -> Shapes.or(acc, shape) }
         }
 
         private val SHAPES: Map<Direction, VoxelShape> = mapOf(
@@ -72,46 +71,46 @@ class ChamberPotBlock(settings: Settings) : HorizontalFacingBlock(settings) {
     }
 
     init {
-        defaultState = stateManager.defaultState.with(FACING, Direction.SOUTH)
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.SOUTH))
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(FACING)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return defaultState.with(FACING, ctx.horizontalPlayerFacing.opposite)
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
+        return defaultBlockState().setValue(FACING, ctx.horizontalDirection.opposite)
     }
 
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView,
+        world: BlockGetter,
         pos: BlockPos,
-        context: ShapeContext
-    ): VoxelShape = SHAPES[state.get(FACING)] ?: SHAPES[Direction.SOUTH]!!
+        context: CollisionContext
+    ): VoxelShape = SHAPES[state.getValue(FACING)] ?: SHAPES[Direction.SOUTH]!!
 
-    override fun onUse(
+    override fun useWithoutItem(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
+        player: Player,
         hit: BlockHitResult
-    ): ActionResult {
-        if (world.isClient) return ActionResult.SUCCESS
+    ): InteractionResult {
+        if (world.isClientSide) return InteractionResult.SUCCESS
 
-        val serverPlayer = player as? ServerPlayerEntity ?: return ActionResult.PASS
+        val serverPlayer = player as? ServerPlayer ?: return InteractionResult.PASS
         val currentUrgency = UrgencyManager.getUrgency(serverPlayer)
-        if (currentUrgency <= 0) return ActionResult.PASS
+        if (currentUrgency <= 0) return InteractionResult.PASS
 
         UrgencyManager.setUrgency(serverPlayer, 0)
         UrgencyManager.syncToClient(serverPlayer)
 
         world.playSound(
             null, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(),
-            ModSounds.CHAMBER_POT_USE, SoundCategory.BLOCKS,
+            ModSounds.CHAMBER_POT_USE, SoundSource.BLOCKS,
             1.0f, 1.0f
         )
 
-        return ActionResult.SUCCESS
+        return InteractionResult.SUCCESS
     }
 }
