@@ -21,8 +21,8 @@ object SteveCOClient : ClientModInitializer {
 
         // 流体レンダリング登録 (バニラ水テクスチャ + 黄色 tint)
         val peeModel = FluidModel.Unbaked(
-            Material(Identifier.withDefaultNamespace("block/water_still")),
-            Material(Identifier.withDefaultNamespace("block/water_flow")),
+            Material(Identifier.withDefaultNamespace("block/water_still"), true),
+            Material(Identifier.withDefaultNamespace("block/water_flow"), true),
             null,
             { _ -> 0xCCCC00 }
         )

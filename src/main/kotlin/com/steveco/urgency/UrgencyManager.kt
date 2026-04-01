@@ -65,10 +65,11 @@ object UrgencyManager {
                 if (newValue >= MAX_URGENCY) {
                     syncToClient(player)
                     onUrgencyMax(player)
+                    syncToClient(player)
                 } else {
                     applyEffects(player, newValue)
+                    syncToClient(player)
                 }
-                syncToClient(player)
             }
         } else {
             tickCounters[uuid] = counter
