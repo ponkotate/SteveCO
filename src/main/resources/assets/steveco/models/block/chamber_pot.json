@@ -1,64 +1,152 @@
 {
   "textures": {
-    "metal": "steveco:block/chamber_pot",
-    "particle": "steveco:block/chamber_pot"
+    "body": "steveco:block/chamber_pot_body",
+    "beak": "steveco:block/chamber_pot_beak",
+    "eye": "steveco:block/chamber_pot_eye",
+    "inner": "steveco:block/chamber_pot_inner",
+    "particle": "steveco:block/chamber_pot_body"
   },
   "elements": [
     {
-      "__comment": "底面",
-      "from": [4, 0, 4],
-      "to": [12, 1, 12],
+      "__comment": "ベース（広い土台）",
+      "from": [2, 0, 2],
+      "to": [14, 1, 14],
       "faces": {
-        "down":  {"uv": [4, 4, 12, 12], "texture": "#metal", "cullface": "down"},
-        "up":    {"uv": [4, 4, 12, 12], "texture": "#metal"},
-        "north": {"uv": [4, 15, 12, 16], "texture": "#metal"},
-        "south": {"uv": [4, 15, 12, 16], "texture": "#metal"},
-        "west":  {"uv": [4, 15, 12, 16], "texture": "#metal"},
-        "east":  {"uv": [4, 15, 12, 16], "texture": "#metal"}
+        "down":  {"uv": [2, 2, 14, 14], "texture": "#body", "cullface": "down"},
+        "up":    {"uv": [2, 2, 14, 14], "texture": "#body"},
+        "north": {"uv": [2, 15, 14, 16], "texture": "#body"},
+        "south": {"uv": [2, 15, 14, 16], "texture": "#body"},
+        "west":  {"uv": [2, 15, 14, 16], "texture": "#body"},
+        "east":  {"uv": [2, 15, 14, 16], "texture": "#body"}
       }
     },
     {
-      "__comment": "北壁",
-      "from": [4, 1, 4],
-      "to": [12, 7, 5],
+      "__comment": "ボディ下部",
+      "from": [3, 1, 3],
+      "to": [13, 3, 13],
       "faces": {
-        "north": {"uv": [4, 9, 12, 15], "texture": "#metal"},
-        "south": {"uv": [4, 9, 12, 15], "texture": "#metal"},
-        "up":    {"uv": [4, 4, 12, 5], "texture": "#metal"},
-        "west":  {"uv": [4, 9, 5, 15], "texture": "#metal"},
-        "east":  {"uv": [11, 9, 12, 15], "texture": "#metal"}
+        "north": {"uv": [3, 13, 13, 15], "texture": "#body"},
+        "south": {"uv": [3, 13, 13, 15], "texture": "#body"},
+        "west":  {"uv": [3, 13, 13, 15], "texture": "#body"},
+        "east":  {"uv": [3, 13, 13, 15], "texture": "#body"},
+        "up":    {"uv": [3, 3, 13, 13], "texture": "#body"}
       }
     },
     {
-      "__comment": "南壁",
-      "from": [4, 1, 11],
-      "to": [12, 7, 12],
+      "__comment": "ボウル底面",
+      "from": [4, 3, 4],
+      "to": [12, 4, 12],
       "faces": {
-        "north": {"uv": [4, 9, 12, 15], "texture": "#metal"},
-        "south": {"uv": [4, 9, 12, 15], "texture": "#metal"},
-        "up":    {"uv": [4, 11, 12, 12], "texture": "#metal"},
-        "west":  {"uv": [11, 9, 12, 15], "texture": "#metal"},
-        "east":  {"uv": [4, 9, 5, 15], "texture": "#metal"}
+        "up": {"uv": [4, 4, 12, 12], "texture": "#inner"}
       }
     },
     {
-      "__comment": "西壁",
-      "from": [4, 1, 5],
+      "__comment": "ボウル北壁",
+      "from": [3, 3, 3],
+      "to": [13, 7, 5],
+      "faces": {
+        "north": {"uv": [3, 9, 13, 13], "texture": "#body"},
+        "south": {"uv": [3, 9, 13, 13], "texture": "#inner"},
+        "up":    {"uv": [3, 3, 13, 5], "texture": "#body"},
+        "west":  {"uv": [3, 9, 5, 13], "texture": "#body"},
+        "east":  {"uv": [11, 9, 13, 13], "texture": "#body"}
+      }
+    },
+    {
+      "__comment": "ボウル南壁",
+      "from": [3, 3, 11],
+      "to": [13, 7, 13],
+      "faces": {
+        "north": {"uv": [3, 9, 13, 13], "texture": "#inner"},
+        "south": {"uv": [3, 9, 13, 13], "texture": "#body"},
+        "up":    {"uv": [3, 11, 13, 13], "texture": "#body"},
+        "west":  {"uv": [11, 9, 13, 13], "texture": "#body"},
+        "east":  {"uv": [3, 9, 5, 13], "texture": "#body"}
+      }
+    },
+    {
+      "__comment": "ボウル西壁",
+      "from": [3, 3, 5],
       "to": [5, 7, 11],
       "faces": {
-        "west":  {"uv": [5, 9, 11, 15], "texture": "#metal"},
-        "east":  {"uv": [5, 9, 11, 15], "texture": "#metal"},
-        "up":    {"uv": [4, 5, 5, 11], "texture": "#metal"}
+        "west":  {"uv": [5, 9, 11, 13], "texture": "#body"},
+        "east":  {"uv": [5, 9, 11, 13], "texture": "#inner"},
+        "up":    {"uv": [3, 5, 5, 11], "texture": "#body"}
       }
     },
     {
-      "__comment": "東壁",
-      "from": [11, 1, 5],
-      "to": [12, 7, 11],
+      "__comment": "ボウル東壁",
+      "from": [11, 3, 5],
+      "to": [13, 7, 11],
       "faces": {
-        "west":  {"uv": [5, 9, 11, 15], "texture": "#metal"},
-        "east":  {"uv": [5, 9, 11, 15], "texture": "#metal"},
-        "up":    {"uv": [11, 5, 12, 11], "texture": "#metal"}
+        "west":  {"uv": [5, 9, 11, 13], "texture": "#inner"},
+        "east":  {"uv": [5, 9, 11, 13], "texture": "#body"},
+        "up":    {"uv": [11, 5, 13, 11], "texture": "#body"}
+      }
+    },
+    {
+      "__comment": "アヒル首（南側に突き出す）",
+      "from": [5, 7, 11],
+      "to": [11, 10, 14],
+      "faces": {
+        "north": {"uv": [5, 6, 11, 9], "texture": "#body"},
+        "south": {"uv": [5, 6, 11, 9], "texture": "#body"},
+        "west":  {"uv": [11, 6, 14, 9], "texture": "#body"},
+        "east":  {"uv": [11, 6, 14, 9], "texture": "#body"},
+        "up":    {"uv": [5, 11, 11, 14], "texture": "#body"}
+      }
+    },
+    {
+      "__comment": "アヒル頭（丸い頭部）",
+      "from": [5, 10, 10],
+      "to": [11, 15, 15],
+      "faces": {
+        "north": {"uv": [5, 1, 11, 6], "texture": "#body"},
+        "south": {"uv": [5, 1, 11, 6], "texture": "#body"},
+        "west":  {"uv": [10, 1, 15, 6], "texture": "#body"},
+        "east":  {"uv": [10, 1, 15, 6], "texture": "#body"},
+        "up":    {"uv": [5, 10, 11, 15], "texture": "#body"},
+        "down":  {"uv": [5, 10, 11, 15], "texture": "#body"}
+      }
+    },
+    {
+      "__comment": "くちばし（南に突き出す）",
+      "from": [6, 10, 15],
+      "to": [10, 13, 16],
+      "faces": {
+        "south": {"uv": [6, 3, 10, 6], "texture": "#beak"},
+        "west":  {"uv": [0, 3, 1, 6], "texture": "#beak"},
+        "east":  {"uv": [0, 3, 1, 6], "texture": "#beak"},
+        "up":    {"uv": [6, 0, 10, 1], "texture": "#beak"},
+        "down":  {"uv": [6, 0, 10, 1], "texture": "#beak"}
+      }
+    },
+    {
+      "__comment": "左目（西面に露出）",
+      "from": [4.5, 12, 12],
+      "to": [5, 13.5, 13.5],
+      "faces": {
+        "west": {"uv": [4, 4, 8, 8], "texture": "#eye"}
+      }
+    },
+    {
+      "__comment": "右目（東面に露出）",
+      "from": [11, 12, 12],
+      "to": [11.5, 13.5, 13.5],
+      "faces": {
+        "east": {"uv": [4, 4, 8, 8], "texture": "#eye"}
+      }
+    },
+    {
+      "__comment": "しっぽ（北側に小さく突き出す）",
+      "from": [6, 6, 1],
+      "to": [10, 9, 3],
+      "faces": {
+        "north": {"uv": [6, 7, 10, 10], "texture": "#body"},
+        "west":  {"uv": [1, 7, 3, 10], "texture": "#body"},
+        "east":  {"uv": [1, 7, 3, 10], "texture": "#body"},
+        "up":    {"uv": [6, 1, 10, 3], "texture": "#body"},
+        "down":  {"uv": [6, 1, 10, 3], "texture": "#body"}
       }
     }
   ]

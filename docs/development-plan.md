@@ -91,7 +91,10 @@ src/main/
       textures/
         block/
           pee_block.png
-          chamber_pot.png
+          chamber_pot_body.png
+          chamber_pot_beak.png
+          chamber_pot_eye.png
+          chamber_pot_inner.png
         gui/
           face_normal.png
           face_mild.png
