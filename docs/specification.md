@@ -6,10 +6,10 @@ Minecraft Fabric Mod (Kotlin)。一定時間経過でプレイヤーに尿意が
 
 ## 対象環境
 
-- Minecraft: 1.21.5
-- Fabric Loader: 0.16+
+- Minecraft: 1.21.4
+- Fabric Loader: 0.18+
 - Fabric Language Kotlin
-- Kotlin: 2.1+
+- Kotlin: 2.3+
 
 ## ゲームメカニクス
 
