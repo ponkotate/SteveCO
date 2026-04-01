@@ -2,6 +2,8 @@ package com.steveco.urgency
 
 import com.steveco.SteveCOMod
 import com.steveco.network.S2CUrgencySyncPayload
+import com.steveco.registry.ModBlocks
+import com.steveco.registry.ModSounds
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
@@ -11,7 +13,9 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.BlockPos
 import java.util.UUID
 
 object UrgencyManager {
@@ -75,11 +79,34 @@ object UrgencyManager {
     }
 
     private fun onUrgencyMax(player: ServerPlayerEntity) {
-        // TODO: フェーズ6で漏出演出を実装
-        // - 足元にPeeBlock設置
-        // - Slowness II (5秒) 付与
-        // - サウンド再生
-        // - パーティクル表示
+        val world = player.serverWorld
+        val feetPos = BlockPos.ofFloored(player.x, player.y, player.z)
+
+        // 足元にPeeBlock設置
+        if (world.getBlockState(feetPos).isAir) {
+            world.setBlockState(feetPos, ModBlocks.PEE_BLOCK.defaultState)
+        }
+
+        // Slowness II を 5秒間付与
+        player.addStatusEffect(
+            StatusEffectInstance(
+                StatusEffects.SLOWNESS,
+                100, // 5秒 = 100 tick
+                1,   // amplifier 1 = Slowness II
+                false,
+                true,
+                true
+            )
+        )
+
+        // サウンド再生
+        world.playSound(
+            null, player.x, player.y, player.z,
+            ModSounds.PEE_RELEASE, SoundCategory.PLAYERS,
+            1.0f, 1.0f
+        )
+
+        // 尿意リセット
         setUrgency(player, 0)
     }
 

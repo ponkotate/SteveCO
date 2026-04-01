@@ -13,5 +13,7 @@ object SteveCOClient : ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(S2CUrgencySyncPayload.ID) { payload, _ ->
             ClientUrgencyData.update(payload.urgency)
         }
+
+        UrgencyHudOverlay.register()
     }
 }

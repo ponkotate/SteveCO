@@ -1,0 +1,14 @@
+{
+  "pee_release": {
+    "subtitle": "subtitles.steveco.pee_release",
+    "sounds": [
+      "steveco:pee_release"
+    ]
+  },
+  "chamber_pot_use": {
+    "subtitle": "subtitles.steveco.chamber_pot_use",
+    "sounds": [
+      "steveco:chamber_pot_use"
+    ]
+  }
+}

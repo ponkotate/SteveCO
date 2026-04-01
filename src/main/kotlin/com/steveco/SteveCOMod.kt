@@ -1,6 +1,9 @@
 package com.steveco
 
 import com.steveco.network.ModNetworking
+import com.steveco.registry.ModBlocks
+import com.steveco.registry.ModItems
+import com.steveco.registry.ModSounds
 import com.steveco.urgency.UrgencyManager
 import net.fabricmc.api.ModInitializer
 import org.slf4j.LoggerFactory
@@ -11,6 +14,9 @@ object SteveCOMod : ModInitializer {
 
     override fun onInitialize() {
         logger.info("Steve Can Oshikko initializing...")
+        ModBlocks.init()
+        ModItems.init()
+        ModSounds.init()
         ModNetworking.registerS2CPayloads()
         UrgencyManager.register()
     }
