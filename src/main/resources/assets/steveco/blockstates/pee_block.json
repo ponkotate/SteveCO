@@ -1,20 +1,7 @@
 {
   "variants": {
-    "level=0": { "model": "steveco:block/pee_block" },
-    "level=1": { "model": "steveco:block/pee_block" },
-    "level=2": { "model": "steveco:block/pee_block" },
-    "level=3": { "model": "steveco:block/pee_block" },
-    "level=4": { "model": "steveco:block/pee_block" },
-    "level=5": { "model": "steveco:block/pee_block" },
-    "level=6": { "model": "steveco:block/pee_block" },
-    "level=7": { "model": "steveco:block/pee_block" },
-    "level=8": { "model": "steveco:block/pee_block" },
-    "level=9": { "model": "steveco:block/pee_block" },
-    "level=10": { "model": "steveco:block/pee_block" },
-    "level=11": { "model": "steveco:block/pee_block" },
-    "level=12": { "model": "steveco:block/pee_block" },
-    "level=13": { "model": "steveco:block/pee_block" },
-    "level=14": { "model": "steveco:block/pee_block" },
-    "level=15": { "model": "steveco:block/pee_block" }
+    "": {
+      "model": "steveco:block/pee_block"
+    }
   }
 }

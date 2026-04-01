@@ -3,15 +3,15 @@ package com.steveco.registry
 import com.steveco.SteveCOMod
 import com.steveco.block.ChamberPotBlock
 import com.steveco.block.PeeFluidBlock
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.block.piston.PistonBehavior
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.sound.BlockSoundGroup
-import net.minecraft.util.Identifier
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.Identifier
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.SoundType
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.material.PushReaction
 
 object ModBlocks {
     val PEE_BLOCK: Block = register(
@@ -23,10 +23,10 @@ object ModBlocks {
                     .noCollision()
                     .replaceable()
                     .strength(100.0f)
-                    .pistonBehavior(PistonBehavior.DESTROY)
-                    .dropsNothing()
+                    .pushReaction(PushReaction.DESTROY)
+                    .noLootTable()
                     .liquid()
-                    .sounds(BlockSoundGroup.INTENTIONALLY_EMPTY)
+                    .sound(SoundType.EMPTY)
             )
         }
     )
@@ -37,18 +37,19 @@ object ModBlocks {
             ChamberPotBlock(
                 settings
                     .strength(3.5f)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.ANVIL)
+                    .requiresCorrectToolForDrops()
+                    .noOcclusion()
+                    .sound(SoundType.ANVIL)
             )
         }
     )
 
-    private fun register(name: String, factory: (AbstractBlock.Settings) -> Block): Block {
-        val id = Identifier.of(SteveCOMod.MOD_ID, name)
-        val key = RegistryKey.of(RegistryKeys.BLOCK, id)
-        val settings = AbstractBlock.Settings.create().registryKey(key)
+    private fun register(name: String, factory: (BlockBehaviour.Properties) -> Block): Block {
+        val id = Identifier.fromNamespaceAndPath(SteveCOMod.MOD_ID, name)
+        val key = ResourceKey.create(Registries.BLOCK, id)
+        val settings = BlockBehaviour.Properties.of().setId(key)
         val block = factory(settings)
-        return Registry.register(Registries.BLOCK, key, block)
+        return Registry.register(BuiltInRegistries.BLOCK, key, block)
     }
 
     fun init() {

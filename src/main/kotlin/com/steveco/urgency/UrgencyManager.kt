@@ -10,13 +10,13 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.minecraft.entity.effect.StatusEffectInstance
-import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.particle.ParticleTypes
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
+import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.resources.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
 import java.util.UUID
 
 object UrgencyManager {
@@ -25,7 +25,7 @@ object UrgencyManager {
     private const val SLOWNESS_THRESHOLD = 75
 
     val URGENCY: AttachmentType<Int> = AttachmentRegistry.createDefaulted(
-        Identifier.of(SteveCOMod.MOD_ID, "urgency"),
+        Identifier.fromNamespaceAndPath(SteveCOMod.MOD_ID, "urgency"),
         { 0 }
     )
 
@@ -33,7 +33,7 @@ object UrgencyManager {
 
     fun register() {
         ServerTickEvents.END_SERVER_TICK.register { server ->
-            for (player in server.playerManager.playerList) {
+            for (player in server.playerList.players) {
                 tick(player)
             }
         }
@@ -49,7 +49,7 @@ object UrgencyManager {
         }
     }
 
-    private fun tick(player: ServerPlayerEntity) {
+    private fun tick(player: ServerPlayer) {
         if (player.isCreative || player.isSpectator) return
 
         val uuid = player.uuid
@@ -63,39 +63,40 @@ object UrgencyManager {
                 setUrgency(player, newValue)
 
                 if (newValue >= MAX_URGENCY) {
-                    syncToClient(player) // 赤面 (段階4) をクライアントに表示
+                    syncToClient(player)
                     onUrgencyMax(player)
+                    syncToClient(player)
                 } else {
                     applyEffects(player, newValue)
+                    syncToClient(player)
                 }
-                syncToClient(player) // リセット後の値を同期
             }
         } else {
             tickCounters[uuid] = counter
         }
     }
 
-    fun getUrgency(player: ServerPlayerEntity): Int {
+    fun getUrgency(player: ServerPlayer): Int {
         return player.getAttachedOrElse(URGENCY, 0).coerceIn(0, MAX_URGENCY)
     }
 
-    fun setUrgency(player: ServerPlayerEntity, value: Int) {
+    fun setUrgency(player: ServerPlayer, value: Int) {
         player.setAttached(URGENCY, value.coerceIn(0, MAX_URGENCY))
     }
 
-    private fun onUrgencyMax(player: ServerPlayerEntity) {
-        val world = player.serverWorld
-        val feetPos = BlockPos.ofFloored(player.x, player.y, player.z)
+    private fun onUrgencyMax(player: ServerPlayer) {
+        val world = player.level()
+        val feetPos = BlockPos.containing(player.x, player.y, player.z)
 
         // 足元にPeeBlock設置
         if (world.getBlockState(feetPos).isAir) {
-            world.setBlockState(feetPos, ModBlocks.PEE_BLOCK.defaultState)
+            world.setBlockAndUpdate(feetPos, ModBlocks.PEE_BLOCK.defaultBlockState())
         }
 
         // Slowness II を 5秒間付与
-        player.addStatusEffect(
-            StatusEffectInstance(
-                StatusEffects.SLOWNESS,
+        player.addEffect(
+            MobEffectInstance(
+                MobEffects.SLOWNESS,
                 100, // 5秒 = 100 tick
                 1,   // amplifier 1 = Slowness II
                 false,
@@ -105,7 +106,7 @@ object UrgencyManager {
         )
 
         // パーティクル表示
-        world.spawnParticles(
+        world.sendParticles(
             ParticleTypes.SPLASH,
             player.x, player.y + 0.5, player.z,
             20, 0.3, 0.2, 0.3, 0.05
@@ -114,7 +115,7 @@ object UrgencyManager {
         // サウンド再生
         world.playSound(
             null, player.x, player.y, player.z,
-            ModSounds.PEE_RELEASE, SoundCategory.PLAYERS,
+            ModSounds.PEE_RELEASE, SoundSource.PLAYERS,
             1.0f, 1.0f
         )
 
@@ -122,13 +123,13 @@ object UrgencyManager {
         setUrgency(player, 0)
     }
 
-    private fun applyEffects(player: ServerPlayerEntity, urgency: Int) {
+    private fun applyEffects(player: ServerPlayer, urgency: Int) {
         if (urgency in SLOWNESS_THRESHOLD until MAX_URGENCY) {
-            player.addStatusEffect(
-                StatusEffectInstance(
-                    StatusEffects.SLOWNESS,
-                    TICK_INTERVAL + 20, // 次の更新まで + 1秒の余裕
-                    0, // amplifier 0 = Slowness I
+            player.addEffect(
+                MobEffectInstance(
+                    MobEffects.SLOWNESS,
+                    TICK_INTERVAL + 20,
+                    0,
                     false,
                     false,
                     true
@@ -137,7 +138,7 @@ object UrgencyManager {
         }
     }
 
-    fun syncToClient(player: ServerPlayerEntity) {
+    fun syncToClient(player: ServerPlayer) {
         ServerPlayNetworking.send(player, S2CUrgencySyncPayload(getUrgency(player)))
     }
 
