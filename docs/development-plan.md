@@ -26,11 +26,13 @@
 
 ## フェーズ 4: ブロック実装
 
-### 黄色い水ブロック
+### 黄色い水ブロック (流体)
 
-- [ ] `PeeBlock` クラス (通過可能、自然消滅タイマー)
-- [ ] ブロックステート・モデル JSON
-- [ ] テクスチャ作成 (黄色半透明)
+- [ ] `PeeFluid` クラス (`FlowableFluid` ベース、Still / Flowing inner class)
+- [ ] `PeeFluidBlock` クラス (`FluidBlock` 継承、60秒消滅タイマー)
+- [ ] `ModFluids` レジストリ (流体登録)
+- [ ] ブロックステート JSON (level=0~15 の 16 バリアント)
+- [ ] クライアント流体レンダリング登録 (黄色 tint 水テクスチャ + Translucent)
 - [ ] ブロック登録
 
 ### おまるブロック
@@ -70,10 +72,13 @@ src/main/
   kotlin/com/steveco/
     SteveCOMod.kt              # Mod エントリポイント
     block/
-      PeeBlock.kt              # 黄色い水ブロック
+      PeeFluidBlock.kt         # 黄色い水ブロック (FluidBlock 継承)
       ChamberPotBlock.kt       # おまるブロック
+    fluid/
+      PeeFluid.kt              # 流体実装 (Still / Flowing)
     registry/
       ModBlocks.kt             # ブロック登録
+      ModFluids.kt             # 流体登録
       ModItems.kt              # アイテム登録
       ModSounds.kt             # サウンド登録
     urgency/
@@ -91,10 +96,7 @@ src/main/
       textures/
         block/
           pee_block.png
-          chamber_pot_body.png
-          chamber_pot_beak.png
-          chamber_pot_eye.png
-          chamber_pot_inner.png
+          chamber_pot.png
         gui/
           face_normal.png
           face_mild.png
