@@ -39,6 +39,7 @@ object UrgencyManager {
         }
 
         ServerPlayerEvents.AFTER_RESPAWN.register { _, newPlayer, _ ->
+            tickCounters.remove(newPlayer.uuid)
             setUrgency(newPlayer, 0)
             syncToClient(newPlayer)
         }
@@ -60,11 +61,12 @@ object UrgencyManager {
                 setUrgency(player, newValue)
 
                 if (newValue >= MAX_URGENCY) {
+                    syncToClient(player) // 赤面 (段階4) をクライアントに表示
                     onUrgencyMax(player)
                 } else {
                     applyEffects(player, newValue)
                 }
-                syncToClient(player)
+                syncToClient(player) // リセット後の値を同期
             }
         } else {
             tickCounters[uuid] = counter

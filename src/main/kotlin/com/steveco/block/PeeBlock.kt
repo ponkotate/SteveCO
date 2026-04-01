@@ -18,6 +18,8 @@ class PeeBlock(settings: Settings) : Block(settings) {
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        world.removeBlock(pos, false)
+        if (state.isOf(this)) {
+            world.removeBlock(pos, false)
+        }
     }
 }

@@ -34,7 +34,7 @@ object UrgencyHudOverlay : HudRenderCallback {
         }
 
         val screenWidth = drawContext.scaledWindowWidth
-        val x = screenWidth / 2 + 82
+        val x = screenWidth / 2 + 95
         val y = drawContext.scaledWindowHeight - 39
 
         drawContext.drawTexture(
