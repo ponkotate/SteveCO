@@ -6,7 +6,7 @@
   "description": "Adds a bladder urgency mechanic to Minecraft",
   "authors": ["Ponkotate"],
   "contact": {},
-  "license": "All-Rights-Reserved",
+  "license": "MIT",
   "environment": "*",
   "entrypoints": {
     "main": [
