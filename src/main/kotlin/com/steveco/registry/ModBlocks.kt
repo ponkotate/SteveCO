@@ -32,6 +32,7 @@ object ModBlocks {
             ChamberPotBlock(
                 settings
                     .strength(3.5f)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.ANVIL)
             )
         }
