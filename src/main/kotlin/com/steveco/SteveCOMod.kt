@@ -3,6 +3,7 @@ package com.steveco
 import com.steveco.command.UrgencyCommand
 import com.steveco.network.ModNetworking
 import com.steveco.registry.ModBlocks
+import com.steveco.registry.ModFluids
 import com.steveco.registry.ModItems
 import com.steveco.registry.ModSounds
 import com.steveco.urgency.UrgencyManager
@@ -16,6 +17,7 @@ object SteveCOMod : ModInitializer {
 
     override fun onInitialize() {
         logger.info("Steve Can Oshikko initializing...")
+        ModFluids.init()
         ModBlocks.init()
         ModItems.init()
         ModSounds.init()
