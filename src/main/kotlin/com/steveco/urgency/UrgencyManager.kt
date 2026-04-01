@@ -50,6 +50,8 @@ object UrgencyManager {
     }
 
     private fun tick(player: ServerPlayerEntity) {
+        if (player.isCreative || player.isSpectator) return
+
         val uuid = player.uuid
         val counter = (tickCounters[uuid] ?: 0) + 1
 
